@@ -1,0 +1,1 @@
+C:\Users\irosales\source\repos\Test.NetCore\Test.NetCore\.sonarqube\out\1
