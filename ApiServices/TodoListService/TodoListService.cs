@@ -57,7 +57,6 @@ namespace TodoListService
                     var result = await myDictionary.TryGetValueAsync(tx, "Counter");
                     ServiceEventSource.Current.ServiceMessage(this.Context, "Current Counter Value: {0}",
                         result.HasValue ? result.Value.ToString() : "Value does not exist.");
-
                     await myDictionary.AddOrUpdateAsync(tx, "Counter", 0, (key, value) => ++value);
                     // If an exception is thrown before calling CommitAsync, the transaction aborts, all changes are 
                     // discarded, and nothing is saved to the secondary replicas.
