@@ -8,10 +8,6 @@ namespace TodoListService
     [EventSource(Name = "MyCompany-Test.NetCore-TodoListService")]
     internal sealed class ServiceEventSource : EventSource
     {
-
-        [DllImport("nativelib.dll", CharSet = CharSet.Unicode)]
-        public static extern void funcMalEscrita(IntPtr pointer);
-
         public static readonly ServiceEventSource Current = new ServiceEventSource();
 
         // Instance constructor is private to enforce singleton semantics

@@ -17,11 +17,6 @@ namespace TodoListService
     /// </summary>
     internal sealed class TodoListService : StatefulService
     {
-
-
-        [DllImport("nativelib.dll", CharSet = CharSet.Unicode)]
-        public static extern void funcMalEscrita(IntPtr pointer);
-
         public TodoListService(StatefulServiceContext context)
             : base(context)
         { }
@@ -57,7 +52,6 @@ namespace TodoListService
                     await myDictionary.AddOrUpdateAsync(tx, "Counter", 0, (key, value) => ++value);
                     await tx.CommitAsync();
                 }
-
                 await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
             }
         }
