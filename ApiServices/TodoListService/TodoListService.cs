@@ -47,7 +47,7 @@ namespace TodoListService
         {
            
             var myDictionary = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, long>>("myDictionary");
-            UselessClass c = new UselessClass();
+            
             while (true)
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -55,7 +55,6 @@ namespace TodoListService
                 using (var tx = this.StateManager.CreateTransaction())
                 {
                     var result = await myDictionary.TryGetValueAsync(tx, "Counter");
-                    Console.WriteLine(c);
                     ServiceEventSource.Current.ServiceMessage(this.Context, "Current Counter Value: {0}",
                         result.HasValue ? result.Value.ToString() : "Value does not exist.");
 
