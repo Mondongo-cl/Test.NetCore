@@ -12,15 +12,22 @@ namespace TodoList.WebApi.Controllers.Tests
     [TestClass()]
     public class TodoListControllerTests
     {
-        StatefulServiceContext context = null;
-        IReliableStateManagerReplica stateManager = null;
+        StatefulServiceContext _context = null;
+        IReliableStateManagerReplica _stateManager = null;
         ITaskItemService _service = null;
+
+        TestContext TestContext
+        {
+            get;
+            set;
+        }
+
         [TestInitialize]
         public void init()
         {
-            context = MockStatefulServiceContextFactory.Default;
-            stateManager = (IReliableStateManagerReplica)new MockReliableStateManager();
-            _service = new TodoListService.TodoListService(context, stateManager);
+            _context = MockStatefulServiceContextFactory.Default;
+            _stateManager = (IReliableStateManagerReplica)new MockReliableStateManager();
+            _service = new TodoListService.TodoListService(_context, _stateManager);
             ((TodoListService.TodoListService)_service).InvokeRunAsync(CancellationToken.None);
         }
 
@@ -37,10 +44,11 @@ namespace TodoList.WebApi.Controllers.Tests
         public void AddNewItem()
         {
             TodoListController c = new TodoListController(_service);
+            Guid elementId = Guid.NewGuid();
             c.Post(new TaskItem
             {
                 Description = "Unit Test",
-                Id = Guid.NewGuid(),
+                Id = elementId,
                 Name = "My Task Name",
                 Status = Domain.TaskItemStatus.Caceled
             }).Wait();
@@ -48,7 +56,18 @@ namespace TodoList.WebApi.Controllers.Tests
             var data = c.Get();
 
             Assert.IsNotNull(data.ToArray());
-            Assert.IsTrue(0 < data.Count());
+            Assert.IsTrue(1 == data.Count());
+            foreach(var i in data)
+                TestContext.WriteLine($"TaskName ={i.Name}\nTask Description={i.Description}\nTask Id = {i.Id}\nTask Status = {i.Status}");
+
+            Microsoft.ServiceFabric.Data.Collections.IReliableDictionary<Guid, TodoList.Domain.TaskItem> _list =
+                _stateManager.GetOrAddAsync<Microsoft.ServiceFabric.Data.Collections.IReliableDictionary<Guid, TodoList.Domain.TaskItem>>("todo-list").Result;
+            using (var trx = _stateManager.CreateTransaction())
+            {
+                var fi = _list.TryGetValueAsync(trx, elementId);
+                Assert.AreEqual(fi.Result.Value.Id, elementId);
+            }
+
 
         }
     }
