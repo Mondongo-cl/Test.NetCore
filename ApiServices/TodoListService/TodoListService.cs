@@ -17,7 +17,7 @@ namespace TodoListService
     /// <summary>
     /// An instance of this class is created for each service replica by the Service Fabric runtime.
     /// </summary>
-    internal sealed class TodoListService : StatefulService, ITaskItemService
+    public sealed class TodoListService : StatefulService, ITaskItemService
     {
         private ITaskItemRepository _repository;
 

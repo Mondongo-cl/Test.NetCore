@@ -21,7 +21,7 @@ namespace TodoListService.Tests
             TodoList.Domain.TaskItem myItem = new TodoList.Domain.TaskItem
             {
                 Id = Guid.NewGuid(),
-                Description = "",
+                Description = "MyDescription",
                 Name = "",
                 Status = TodoList.Domain.TaskItemStatus.InProgress
             };

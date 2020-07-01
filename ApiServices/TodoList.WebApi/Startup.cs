@@ -9,11 +9,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using TodoList.Domain;
 
 namespace TodoList.WebApi
 {
     public class Startup
     {
+
+        private const string backEndServiceURL = "fabric:/Test.NetCore/TodoListService";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -25,6 +29,20 @@ namespace TodoList.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddTransient<ITaskItemService, ITaskItemService>((a)=>
+                {
+                    var factory = new Microsoft.ServiceFabric.Services.Remoting.Client.ServiceProxyFactory(c => 
+                    new Microsoft.ServiceFabric.Services.Remoting.V2.FabricTransport.Client.FabricTransportServiceRemotingClientFactory(null)
+                    );
+
+                  var instance = factory.CreateServiceProxy<ITaskItemService>(
+                    new Uri(backEndServiceURL),
+                    new Microsoft.ServiceFabric.Services.Client.ServicePartitionKey(0)
+                    );
+                    return instance;
+                }
+                );
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,6 +56,7 @@ namespace TodoList.WebApi
             app.UseRouting();
 
             app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {

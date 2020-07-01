@@ -16,20 +16,13 @@ namespace TodoList.WebApi.Controllers
     [Route("[controller]")]
     public class TodoListController : ControllerBase
     {
-        private const string backEndServiceURL = "fabric:/Test.NetCore/TodoListService";
+
         
         private readonly ITaskItemService _service;
 
-        public TodoListController()
+        public TodoListController(ITaskItemService service)
         {
-            
-            var factory = new ServiceProxyFactory(
-                c => new FabricTransportServiceRemotingClientFactory(null));
-
-            _service = factory.CreateServiceProxy<ITaskItemService>(
-                new Uri(backEndServiceURL),
-                new ServicePartitionKey(0)
-                );
+            _service = service;                
         }
 
         [HttpGet]

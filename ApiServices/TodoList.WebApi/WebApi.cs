@@ -36,6 +36,7 @@ namespace TodoList.WebApi
                     {
                         ServiceEventSource.Current.ServiceMessage(serviceContext, $"Starting Kestrel on {url}");
 
+
                         return new WebHostBuilder()
                                     .UseKestrel()
                                     .ConfigureServices(
