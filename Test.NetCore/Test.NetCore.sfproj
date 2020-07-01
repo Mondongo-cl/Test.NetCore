@@ -32,6 +32,9 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ApiServices\TodoList.WebApi\TodoList.WebApi.csproj">
+      <ServiceLaunchUrl>http://{MachineName}:{ServicePort}/weatherforecast</ServiceLaunchUrl>
+    </ProjectReference>
     <ProjectReference Include="..\ApiServices\TodoListService\TodoListService.csproj" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />

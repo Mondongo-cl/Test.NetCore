@@ -9,8 +9,7 @@ namespace UnitTestProject
         [TestMethod]
         public void TestMethod1()
         {
-            //succhess always
-            Assert.IsTrue(true);
+         
         }
 
     }
