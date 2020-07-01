@@ -87,7 +87,7 @@ namespace TodoList.Domain.Tests
             };
 
             Assert.IsNotNull(t);
-            Assert.AreEqual("Delayed", t.Status);
+            Assert.AreEqual(TaskItemStatus.Delayed, t.Status);
         }
 
     }
