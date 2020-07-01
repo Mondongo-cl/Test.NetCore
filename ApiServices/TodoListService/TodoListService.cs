@@ -1,4 +1,5 @@
 
+using Microsoft.ServiceFabric.Data;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using System;
@@ -23,6 +24,9 @@ namespace TodoListService
         public TodoListService(StatefulServiceContext context)
             : base(context)
         { }
+
+        public TodoListService(StatefulServiceContext context, IReliableStateManagerReplica reliableStateManagerReplica)
+        : base(context, reliableStateManagerReplica) { }
 
 
         /// <summary>
