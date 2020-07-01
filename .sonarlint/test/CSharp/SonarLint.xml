@@ -3,7 +3,7 @@
   <Settings>
     <Setting>
       <Key>sonar.cs.analyzeGeneratedCode</Key>
-      <Value>true</Value>
+      <Value>false</Value>
     </Setting>
     <Setting>
       <Key>sonar.cs.file.suffixes</Key>
@@ -11,7 +11,7 @@
     </Setting>
     <Setting>
       <Key>sonar.cs.ignoreHeaderComments</Key>
-      <Value>false</Value>
+      <Value>true</Value>
     </Setting>
     <Setting>
       <Key>sonar.cs.roslyn.ignoreIssues</Key>
