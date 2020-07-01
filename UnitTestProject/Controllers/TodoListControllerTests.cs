@@ -15,11 +15,11 @@ namespace TodoList.WebApi.Controllers.Tests
         StatefulServiceContext _context = null;
         IReliableStateManagerReplica _stateManager = null;
         ITaskItemService _service = null;
-
-        TestContext TestContext
+        TestContext _testContext;
+        public TestContext TestContext
         {
-            get;
-            set;
+            get { return _testContext; }
+            set {_testContext = value; }
         }
 
         [TestInitialize]
@@ -62,6 +62,7 @@ namespace TodoList.WebApi.Controllers.Tests
 
             Microsoft.ServiceFabric.Data.Collections.IReliableDictionary<Guid, TodoList.Domain.TaskItem> _list =
                 _stateManager.GetOrAddAsync<Microsoft.ServiceFabric.Data.Collections.IReliableDictionary<Guid, TodoList.Domain.TaskItem>>("todo-list").Result;
+
             using (var trx = _stateManager.CreateTransaction())
             {
                 var fi = _list.TryGetValueAsync(trx, elementId);
