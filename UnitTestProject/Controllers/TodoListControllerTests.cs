@@ -1,8 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TodoList.WebApi.Controllers;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 
 namespace TodoList.WebApi.Controllers.Tests
