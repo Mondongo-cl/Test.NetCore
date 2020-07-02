@@ -3,12 +3,23 @@ using TodoList.Domain;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace TodoList.Domain.Tests
 {
     [TestClass()]
     public class TaskItemTests
     {
+
+        [TestMethod]
+        public void TestEnum()
+        {
+            String value = "Created";
+            object r = null;
+            Enum.TryParse(typeof(TaskItemStatus), value, out r);
+            Assert.IsNotNull(r);
+        }
+        
         [TestMethod()]
         public void TaskItemTest()
         {
@@ -18,7 +29,7 @@ namespace TodoList.Domain.Tests
                 Description = null,
                 Id = Guid.Empty,
                 Name = null,
-                Status = 0
+                Status = TaskItemStatus.Created
             };
 
             Assert.IsNotNull(t);
