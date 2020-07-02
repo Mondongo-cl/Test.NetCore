@@ -61,7 +61,7 @@ namespace TodoList.Domain.Tests
             };
 
             Assert.IsNotNull(t);
-            Assert.AreNotEqual(g, t.Id);
+            Assert.AreEqual(g, t.Id);
         }
 
 
