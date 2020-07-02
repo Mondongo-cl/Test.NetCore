@@ -26,13 +26,11 @@ namespace TodoList.WebApi.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<TaskItem> Get()
+        public async Task<IEnumerable<TaskItem>> Get()
         {
-            var Items =
+            var Items = await
                 _service
-                .GetAllTaskItemsAsync()
-                .GetAwaiter()
-                .GetResult();
+                .GetAllTaskItemsAsync();
 
             return Items.Select(o =>
                             new TaskItem 
