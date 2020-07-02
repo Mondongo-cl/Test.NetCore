@@ -26,21 +26,23 @@ namespace TodoList.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<TaskItem>> Get()
+        public async IAsyncEnumerable<TaskItem> Get()
         {
             var Items = await
                 _service
                 .GetAllTaskItemsAsync();
 
-            return Items.Select(o =>
-                            new TaskItem 
-                            { 
-                                Description = o.Description, 
-                                Id = o.Id, 
-                                Name = o.Name, 
-                                Status = o.Status 
-                            }
-              );
+            foreach(var o in Items)
+            {
+                yield return new TaskItem
+                {
+                    Description = o.Description,
+                    Id = o.Id,
+                    Name = o.Name,
+                    Status = o.Status
+                };
+            }
+            yield break;
         }
 
         [HttpPost]

@@ -53,8 +53,9 @@ namespace TodoList.WebApi.Controllers.Tests
         {
             TodoListController c = new TodoListController(_service);
             var data = c.Get();
-            Assert.IsNotNull(data.GetAwaiter().GetResult().ToArray());
-            Assert.AreNotSame(0, data.GetAwaiter().GetResult().Count());
+            Assert.IsNotNull(data.GetAsyncEnumerator());
+            Assert.IsTrue(data.GetAsyncEnumerator().MoveNextAsync().Result);
+            Assert.IsNotNull(data.GetAsyncEnumerator().Current);
         }
 
         [TestMethod]
@@ -72,10 +73,10 @@ namespace TodoList.WebApi.Controllers.Tests
 
             var data = c.Get();
 
-            Assert.IsNotNull(data.GetAwaiter().GetResult().ToArray());
-            Assert.IsTrue(1 == data.GetAwaiter().GetResult().Count());
-            foreach(var i in data.GetAwaiter().GetResult())
-                TestContext.WriteLine($"TaskName ={i.Name}\nTask Description={i.Description}\nTask Id = {i.Id}\nTask Status = {i.Status}");
+            Assert.IsTrue(data.GetAsyncEnumerator().MoveNextAsync().Result);
+            Assert.IsTrue(elementId == data.GetAsyncEnumerator().Current.Id);
+            var i = data.GetAsyncEnumerator().Current;
+            TestContext.WriteLine($"TaskName ={i.Name}\nTask Description={i.Description}\nTask Id = {i.Id}\nTask Status = {i.Status}");
 
             Microsoft.ServiceFabric.Data.Collections.IReliableDictionary<Guid, TodoList.Domain.TaskItem> _list =
                 _stateManager.GetOrAddAsync<Microsoft.ServiceFabric.Data.Collections.IReliableDictionary<Guid, TodoList.Domain.TaskItem>>("todo-list").Result;
