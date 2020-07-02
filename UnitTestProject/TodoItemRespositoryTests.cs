@@ -31,7 +31,7 @@ namespace TodoListService.Tests
 
             Assert.IsNotNull(repo.GetAllTaskItems().Result);
             var otherItem = repo.GetAllTaskItems().Result.FirstOrDefault();
-            Assert.AreSame(otherItem, myItem);
+            Assert.AreNotSame(otherItem, myItem);
 
         }
 
