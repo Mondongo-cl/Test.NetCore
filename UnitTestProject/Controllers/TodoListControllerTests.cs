@@ -52,10 +52,20 @@ namespace TodoList.WebApi.Controllers.Tests
         public void GetAllTest()
         {
             TodoListController c = new TodoListController(_service);
+            TaskItem newTaskItem = new TaskItem
+            {
+                Description = "GetAllTest",
+                Id = Guid.NewGuid(),
+                Name = "Task GetAllTest",
+                Status = Domain.TaskItemStatus.Complete
+            };
+            c.Post(newTaskItem);
+
             var data = c.Get();
-            Assert.IsNotNull(data.GetAsyncEnumerator());
-            Assert.IsTrue(data.GetAsyncEnumerator().MoveNextAsync().Result);
-            Assert.IsNotNull(data.GetAsyncEnumerator().Current);
+            System.Collections.Generic.IAsyncEnumerator<TaskItem> currentEnumerator = data.GetAsyncEnumerator();
+            Assert.IsNotNull(currentEnumerator);
+            Assert.IsTrue(currentEnumerator.MoveNextAsync().Result);
+            Assert.IsNotNull(currentEnumerator.Current);
         }
 
         [TestMethod]
@@ -63,19 +73,21 @@ namespace TodoList.WebApi.Controllers.Tests
         {
             TodoListController c = new TodoListController(_service);
             Guid elementId = Guid.NewGuid();
-            c.Post(new TaskItem
+            TaskItem newTaskItem = new TaskItem
             {
                 Description = "Unit Test",
                 Id = elementId,
                 Name = "My Task Name",
                 Status = Domain.TaskItemStatus.Caceled
-            }).Wait();
+            };
+            c.Post(newTaskItem).Wait();
 
             var data = c.Get();
 
-            Assert.IsTrue(data.GetAsyncEnumerator().MoveNextAsync().Result);
-            Assert.IsTrue(elementId == data.GetAsyncEnumerator().Current.Id);
-            var i = data.GetAsyncEnumerator().Current;
+            System.Collections.Generic.IAsyncEnumerator<TaskItem> asyncEnumerator = data.GetAsyncEnumerator();
+            Assert.IsTrue(asyncEnumerator.MoveNextAsync().Result);
+            Assert.IsTrue(elementId == asyncEnumerator.Current.Id);
+            var i = asyncEnumerator.Current;
             TestContext.WriteLine($"TaskName ={i.Name}\nTask Description={i.Description}\nTask Id = {i.Id}\nTask Status = {i.Status}");
 
             Microsoft.ServiceFabric.Data.Collections.IReliableDictionary<Guid, TodoList.Domain.TaskItem> _list =
