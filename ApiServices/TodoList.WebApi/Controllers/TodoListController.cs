@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Microsoft.ServiceFabric.Services.Client;
-using Microsoft.ServiceFabric.Services.Remoting.Client;
-using Microsoft.ServiceFabric.Services.Remoting.V2.FabricTransport.Client;
 using TodoList.Domain;
-using TodoListService;
 
 namespace TodoList.WebApi.Controllers
 {
@@ -42,7 +36,6 @@ namespace TodoList.WebApi.Controllers
                     Status = o.Status
                 };
             }
-            yield break;
         }
 
         [HttpPost]

@@ -1,9 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TodoList.Domain;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace TodoList.Domain.Tests
 {
