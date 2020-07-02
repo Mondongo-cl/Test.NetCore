@@ -44,7 +44,7 @@ namespace TodoList.Domain.Tests
             };
 
             Assert.IsNotNull(t);
-            Assert.AreSame("Test",t.Description);
+            Assert.AreNotSame("Test",t.Description);
         }
 
 
@@ -61,7 +61,7 @@ namespace TodoList.Domain.Tests
             };
 
             Assert.IsNotNull(t);
-            Assert.AreEqual(g, t.Id);
+            Assert.AreNotEqual(g, t.Id);
         }
 
 
