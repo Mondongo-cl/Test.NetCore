@@ -59,8 +59,7 @@ namespace TodoListService
         protected override async Task RunAsync(CancellationToken cancellationToken)
         {
             _repository = new TodoItemRespository(this.StateManager);
-             await base.RunAsync(cancellationToken);           
-
+            await base.RunAsync(cancellationToken);
         }
     }
 }

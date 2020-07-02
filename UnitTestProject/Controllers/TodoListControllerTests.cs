@@ -4,6 +4,7 @@ using ServiceFabric.Mocks;
 using System;
 using System.Fabric;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using TodoList.Domain;
 
@@ -16,10 +17,25 @@ namespace TodoList.WebApi.Controllers.Tests
         IReliableStateManagerReplica _stateManager = null;
         ITaskItemService _service = null;
         TestContext _testContext;
+        CancellationTokenSource _cancelationTokenSource;
+
         public TestContext TestContext
         {
             get { return _testContext; }
             set {_testContext = value; }
+        }
+
+
+        [TestCleanup]
+        public void finalize()
+        {
+            if(_cancelationTokenSource != null)
+            {
+                if(!_cancelationTokenSource.IsCancellationRequested)
+                {
+                    _cancelationTokenSource.Cancel();
+                }
+            }
         }
 
         [TestInitialize]
@@ -28,7 +44,8 @@ namespace TodoList.WebApi.Controllers.Tests
             _context = MockStatefulServiceContextFactory.Default;
             _stateManager = (IReliableStateManagerReplica)new MockReliableStateManager();
             _service = new TodoListService.TodoListService(_context, _stateManager);
-            ((TodoListService.TodoListService)_service).InvokeRunAsync(CancellationToken.None);
+            _cancelationTokenSource = new CancellationTokenSource();
+            ((TodoListService.TodoListService)_service).InvokeRunAsync(_cancelationTokenSource.Token);
         }
 
         [TestMethod()]
