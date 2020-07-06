@@ -33,7 +33,6 @@ namespace DemoActor
         {
             await StateManager.AddOrUpdateStateAsync(itemId.ToString(), name, (id, oldname) =>
             {
-                Trace.WriteLine($"name : {name}");
                 return name;
             });
         }
