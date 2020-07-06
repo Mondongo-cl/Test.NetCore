@@ -32,6 +32,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ApiServices\DemoActor\DemoActor.csproj" />
     <ProjectReference Include="..\ApiServices\TodoList.WebApi\TodoList.WebApi.csproj">
       <ServiceLaunchUrl>http://{MachineName}:{ServicePort}/weatherforecast</ServiceLaunchUrl>
     </ProjectReference>
